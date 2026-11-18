@@ -28,10 +28,17 @@
   <p id="msg">Abrindo…</p>
 </main>
 <script>
-  // Leva direto para o app (que roda no Claude) depois de mostrar a logo.
+  // Aberto pelo ícone da tela inicial: vai direto para o app no Claude.
+  // Aberto no navegador: fica nesta página, para dar tempo de instalar com a logo.
   var URL_APP = document.getElementById("go").href;
-  setTimeout(function(){ location.href = URL_APP; }, 1200);
-  setTimeout(function(){ document.getElementById("msg").textContent = "Se não abrir sozinho, toque no botão acima."; }, 3500);
+  var instalado = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+  var msg = document.getElementById("msg");
+  if (instalado) {
+    msg.textContent = "Abrindo…";
+    setTimeout(function(){ location.href = URL_APP; }, 1200);
+  } else {
+    msg.innerHTML = "Para instalar com a logo: no Chrome, toque nos três pontinhos e escolha <b>Instalar app</b> ou <b>Adicionar à tela inicial</b> <u>nesta página</u>.";
+  }
 </script>
 </body>
 </html>
